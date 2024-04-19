@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/dotnet/sdk:8.0
+
+RUN groupadd --gid 1000 vscode \
+    && useradd --uid 1000 --gid vscode --shell /bin/bash --create-home vscode
+
+WORKDIR /app
+
+USER vscode
+
+RUN dotnet tool update -g dotnet-aspnet-codegenerator \
+    && dotnet tool update --global dotnet-ef
+
+ENV PATH="${PATH}:/home/vscode/.dotnet/tools"
+    
+CMD ["sleep", "infinity"]

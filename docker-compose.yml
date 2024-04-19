@@ -8,8 +8,8 @@ networks:
 services:
   angular:
     build:
-      context: angular
-      dockerfile: ./Dockerfile
+      context: .
+      dockerfile: Dockerfile.angular
     container_name: "${PROJECT_NAME}_angular"
     volumes:
       - ./angular/sns:/app
@@ -20,16 +20,18 @@ services:
       - "traefik.http.routers.${PROJECT_NAME}_angular.rule=Host(`${PROJECT_BASE_URL}`)"
 
   dotnet:
-    image: mcr.microsoft.com/dotnet/sdk:8.0
+    build:
+      context: .
+      dockerfile: Dockerfile.dotnet
     container_name: "${PROJECT_NAME}_dotnet"
-    command: sleep infinity #dotnet watch --project ./app run --urls "http://0.0.0.0:8081"
+    command: dotnet watch --project . run --urls "http://0.0.0.0:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8081
       #- ASPNETCORE_Kestrel__Certificates__Default__Password=password
       #- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
-      - ./BackendAPI:/app
+      - ./dotnet/MessagingAPI:/app
     expose:
       - '8081'
     labels:
@@ -37,7 +39,7 @@ services:
       - "traefik.http.routers.${PROJECT_NAME}_dotnet.rule=Host(`dotnet.${PROJECT_BASE_URL}`)"
 
   postgres:
-    image: postgis/postgis #wodby/postgres:$POSTGRES_TAG
+    image: postgis/postgis 
     container_name: "${PROJECT_NAME}_postgres"
     stop_grace_period: 30s
     shm_size: 1g
