@@ -13,15 +13,16 @@ services:
     container_name: "${PROJECT_NAME}_angular"
     volumes:
       - ./angular/sns:/app
-    ports:
-      - '4200:4200'
+    expose:
+      - '4200'
     labels:
+      #- "traefik.http.services.${PROJECT_NAME}_angular.loadbalancer.server.port=4200"
       - "traefik.http.routers.${PROJECT_NAME}_angular.rule=Host(`${PROJECT_BASE_URL}`)"
 
   dotnet:
     image: mcr.microsoft.com/dotnet/sdk:8.0
     container_name: "${PROJECT_NAME}_dotnet"
-    command: dotnet watch --project ./app run --urls "http://0.0.0.0:8081"
+    command: sleep infinity #dotnet watch --project ./app run --urls "http://0.0.0.0:8081"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8081
@@ -29,9 +30,10 @@ services:
       #- ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
       - ./BackendAPI:/app
-    ports:
-      - '8081:8081'
+    expose:
+      - '8081'
     labels:
+      #- "traefik.http.services.${PROJECT_NAME}_dotnet.loadbalancer.server.port=8081"
       - "traefik.http.routers.${PROJECT_NAME}_dotnet.rule=Host(`dotnet.${PROJECT_BASE_URL}`)"
 
   postgres:
