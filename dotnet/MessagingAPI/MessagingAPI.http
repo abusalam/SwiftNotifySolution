@@ -1,6 +1,38 @@
-@MessagingAPI_HostAddress = http://localhost:5031
+@MessagingAPI_HostAddress = http://dotnet.{{$dotenv PROJECT_BASE_URL}}
+@accessToken = {{Login.response.body.$.accessToken}}
+@refreshToken = {{Login.response.body.$.refreshToken}}
 
+### WeatherForecast Request
+# @name GetWeatherForecast
 GET {{MessagingAPI_HostAddress}}/weatherforecast/
 Accept: application/json
+Authorization: Bearer {{accessToken}}
 
-###
+### Register User
+# @name Register
+POST {{MessagingAPI_HostAddress}}/auth/register/
+Content-Type: application/json
+
+{
+  "email": "sns@example.com",
+  "password": "P@ssw0rd"
+}
+
+### Login Request
+# @name Login
+POST {{MessagingAPI_HostAddress}}/auth/login/
+Content-Type: application/json
+
+{
+  "email": "sns@example.com",
+  "password": "P@ssw0rd"
+}
+
+### RefreshToken Request
+# @name RefreshToken
+POST {{MessagingAPI_HostAddress}}/auth/refresh/
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}

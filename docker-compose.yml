@@ -10,19 +10,21 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.angular
+    restart: unless-stopped
     container_name: "${PROJECT_NAME}_angular"
+    command: ng serve --host 0.0.0.0
     volumes:
-      - ./angular/sns:/app
+      - ./angular:/app
     expose:
       - '4200'
     labels:
-      #- "traefik.http.services.${PROJECT_NAME}_angular.loadbalancer.server.port=4200"
       - "traefik.http.routers.${PROJECT_NAME}_angular.rule=Host(`${PROJECT_BASE_URL}`)"
 
   dotnet:
     build:
       context: .
       dockerfile: Dockerfile.dotnet
+    restart: unless-stopped
     container_name: "${PROJECT_NAME}_dotnet"
     command: dotnet watch --project . run --urls "http://0.0.0.0:8081"
     environment:
@@ -35,11 +37,11 @@ services:
     expose:
       - '8081'
     labels:
-      #- "traefik.http.services.${PROJECT_NAME}_dotnet.loadbalancer.server.port=8081"
       - "traefik.http.routers.${PROJECT_NAME}_dotnet.rule=Host(`dotnet.${PROJECT_BASE_URL}`)"
 
   postgres:
     image: postgis/postgis 
+    restart: unless-stopped
     container_name: "${PROJECT_NAME}_postgres"
     stop_grace_period: 30s
     shm_size: 1g
@@ -49,6 +51,8 @@ services:
       POSTGRES_USER: $DB_USER
       POSTGRES_HOST_AUTH_METHOD: trust
       POSTGRES_INITDB_ARGS: --auth-host=scram-sha-256
+    ports:
+      - '5432:5432'
     volumes:
       - ./postgres-init:/docker-entrypoint-initdb.d # Place init file(s) here.
       - ./postgres-data:/var/lib/postgresql/data # Use bind mount
@@ -56,6 +60,7 @@ services:
   adminer:
     container_name: "${PROJECT_NAME}_adminer"
     image: wodby/adminer:$ADMINER_TAG
+    restart: unless-stopped
     init: true
     environment:
       # For PostgreSQL:
@@ -67,7 +72,7 @@ services:
 
   traefik:
     image: traefik:v2.0
-    restart: always
+    restart: unless-stopped
     container_name: "${PROJECT_NAME}_traefik"
     command: --api.insecure=true --providers.docker
     ports:

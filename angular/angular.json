@@ -6,32 +6,32 @@
     "sns": {
       "projectType": "application",
       "schematics": {},
-      "root": "",
-      "sourceRoot": "src",
+      "root": "projects/sns",
+      "sourceRoot": "projects/sns/src",
       "prefix": "app",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/sns",
-            "index": "src/index.html",
-            "browser": "src/main.ts",
+            "index": "projects/sns/src/index.html",
+            "browser": "projects/sns/src/main.ts",
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "projects/sns/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/sns/src/favicon.ico",
+              "projects/sns/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "projects/sns/src/styles.css"
             ],
             "scripts": [],
-            "server": "src/main.server.ts",
+            "server": "projects/sns/src/main.server.ts",
             "prerender": true,
             "ssr": {
-              "entry": "server.ts"
+              "entry": "projects/sns/server.ts"
             }
           },
           "configurations": {
@@ -83,13 +83,13 @@
               "zone.js",
               "zone.js/testing"
             ],
-            "tsConfig": "tsconfig.spec.json",
+            "tsConfig": "projects/sns/tsconfig.spec.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "projects/sns/src/favicon.ico",
+              "projects/sns/src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "projects/sns/src/styles.css"
             ],
             "scripts": []
           }
@@ -98,6 +98,6 @@
     }
   },
   "cli": {
-    "analytics": "b0526dad-1f7d-4c44-af27-744ad7d58df0"
+    "analytics": false
   }
 }
