@@ -6,7 +6,7 @@ RUN deluser --remove-home node \
 
 WORKDIR /app
 
-RUN npm install -g npm@10.5.2
+RUN npm install -g npm@10.7.*
 
 RUN npm install -g @angular/cli
 

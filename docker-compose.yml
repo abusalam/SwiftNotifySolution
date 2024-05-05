@@ -12,7 +12,7 @@ services:
       dockerfile: Dockerfile.angular
     restart: unless-stopped
     container_name: "${PROJECT_NAME}_angular"
-    command: ng serve --host 0.0.0.0
+    command: ng serve --host 0.0.0.0 --disable-host-check
     volumes:
       - ./angular:/app
     expose:

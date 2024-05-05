@@ -5,6 +5,19 @@ using MessagingAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add Cors
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy  =>
+    {
+        policy.WithOrigins(
+            "http://sns.test",
+            "http://dotnet.sns.test")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
+
 // Add EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -36,6 +49,8 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors();
 
 app.MapControllers();
 

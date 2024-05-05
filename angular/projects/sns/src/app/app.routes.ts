@@ -5,6 +5,8 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { RegisterPageComponent } from './auth/register-page/register-page.component';
 import { ForgotPasswordPageComponent } from './auth/forgot-password-page/forgot-password-page.component';
 import { ResetPasswordPageComponent } from './auth/reset-password-page/reset-password-page.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { authGuard } from './services/auth.guard';
 
 export const routes: Routes = [
     {
@@ -33,8 +35,14 @@ export const routes: Routes = [
         title:'Reset Password'
     },
     {
+        path:'dashboard',
+        component:DashboardComponent,
+        title:'Dashboard',
+        canActivate: [authGuard()]
+    },
+    {
         path:'**',
         component:ErrorPageComponent,
         title:'Page not found'
-    }
+    },
 ];
