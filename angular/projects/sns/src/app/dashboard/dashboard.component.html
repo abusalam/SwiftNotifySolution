@@ -71,7 +71,7 @@
               <!-- Active: "bg-gray-100", Not Active: "" -->
               <a mat-menu-item href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-0">Your Profile</a>
               <a mat-menu-item href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-1">Settings</a>
-              <a mat-menu-item href="#" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
+              <a mat-menu-item (click)="logoutUser()" class="block px-4 py-2 text-sm text-gray-700" role="menuitem" tabindex="-1" id="user-menu-item-2">Sign out</a>
             </mat-menu>
           </div>
         </div>
@@ -98,3 +98,4 @@
       <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Calendar</a>
     </mat-drawer>
   </mat-drawer-container>
+  <span>{{ userInfo.email }}</span>

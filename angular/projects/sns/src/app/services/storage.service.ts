@@ -10,20 +10,18 @@ export const BROWSER_STORAGE = new InjectionToken<Storage>('Browser Storage', {
   providedIn: 'root'
 })
 export class BrowserStorageService {
-  
-  encryptionEnabled:boolean=false;
 
   key = inject(ConfigService).getBaseUrl();
   
   constructor(@Inject(BROWSER_STORAGE) public storage: Storage) {}
 
-  getData(key: string) {
+  getData(key: string, useDecryption: boolean = false) {
     const data = this.storage.getItem(key) || "";
-    return this.encryptionEnabled ? this.decrypt(data) : data;
+    return useDecryption ? this.decrypt(data) : data;
   }
 
-  saveData(key: string, value: string) {
-    this.storage.setItem(key, this.encryptionEnabled ? this.encrypt(value): value);
+  saveData(key: string, value: string, useEncryption: boolean = false) {
+    this.storage.setItem(key, useEncryption ? this.encrypt(value): value);
   }
 
   removeData(key: string) {

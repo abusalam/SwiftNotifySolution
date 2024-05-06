@@ -1,46 +1,45 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { LoginRequest } from '../../services/interfaces/auth.req';
 import { FormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { AccessTokenResponse } from '../../services/interfaces/auth.resp';
+import { AuthService } from '../../services/auth.service';
+import { LoginRequest } from '../../services/interfaces/auth.req';
 
 @Component({
   selector: 'app-login-page',
   standalone: true,
-  imports: [RouterLink, FormsModule, HttpClientModule],
+  imports: [RouterLink, FormsModule],
   templateUrl: './login-page.component.html',
   styleUrl: './login-page.component.css'
 })
 export class LoginPageComponent {
-  loginRequest: LoginRequest = {
+
+  user: LoginRequest = {
     "email": "",
     "password": "",
     "twoFactorCode": "",
     "twoFactorRecoveryCode": ""
   };
 
-  constructor(private http: HttpClient, private router: Router){
-    this.loginRequest=this.loginRequest;
-  }
+  constructor(private router: Router, private authService: AuthService){}
 
   onLogin() {
-    console.log(this.loginRequest);
-    //debugger;
-    this.http.post<AccessTokenResponse>(
-      'http://dotnet.sns.test/auth/login',
-       this.loginRequest
-      )
-    .subscribe((res:AccessTokenResponse)=>{
-      if(res.tokenType==='Bearer') {
-        localStorage.setItem('accessToken', res.accessToken)
-        localStorage.setItem('expiresIn', res.expiresIn.toString())
-        localStorage.setItem('refreshToken', res.refreshToken)
-        localStorage.setItem('tokenType', res.tokenType)
-        this.router.navigateByUrl('/dashboard')
-      } else {
-        alert('Not found')
+    this.authService.loginRequest(this.user).subscribe(()=>{
+      console.log('Logged In');
+      if(this.authService.isAuthenticated()) {
+        this.router.navigateByUrl('/dashboard');
       }
-    })
+    });
+
+    // .subscribe((res:InfoResponse)=>{
+    //   console.log(`authGuard(): ${res.email}`);
+    //   return true;
+    // }),
+    // (error: HttpErrorResponse) => {
+    //   if (error.status === 401) {
+    //     return false;
+    //   }
+    //   return false;
+    // }
+    // return false;
   }
 }

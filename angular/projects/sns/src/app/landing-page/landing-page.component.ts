@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+import { InfoResponse } from '../services/interfaces/auth.resp';
 
 @Component({
   selector: 'app-landing-page',
@@ -10,4 +12,11 @@ import { RouterLink } from '@angular/router';
 })
 export class LandingPageComponent {
 
+  constructor(private router: Router, private authService: AuthService){
+    authService.getUserInfo().subscribe((res:InfoResponse) => {
+      if(this.authService.isAuthenticated()) {
+        this.router.navigateByUrl('/dashboard');
+      }
+    });
+  }
 }
