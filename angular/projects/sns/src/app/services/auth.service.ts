@@ -1,9 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AccessTokenResponse, InfoResponse } from './interfaces/auth.resp';
 import { LoginRequest } from './interfaces/auth.req';
 import { ConfigService } from './config.service';
-import { Router } from '@angular/router';
 import { BrowserStorageService } from './storage.service';
 import { tap } from 'rxjs';
 

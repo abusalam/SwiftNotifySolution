@@ -3,10 +3,9 @@ import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authInterceptor, loggingInterceptor } from './app.interceptor';
 
-import { firstValueFrom, tap } from 'rxjs';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { ConfigService } from './services/config.service';
 
@@ -19,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes), 
     provideClientHydration(),
     provideHttpClient(
+      withFetch(),
       withInterceptors([loggingInterceptor, authInterceptor]),
     ),
     {
