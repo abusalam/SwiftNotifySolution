@@ -29,7 +29,7 @@ export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerF
   //return next(req);
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-     let errorMsg = "";  
+     let errorMsg = error.error;  
      console.log(`loggingInterceptor: ${errorMsg}`);
      return throwError(() => errorMsg);
     })
