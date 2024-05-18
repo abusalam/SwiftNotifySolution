@@ -7,6 +7,7 @@ import { ForgotPasswordPageComponent } from './auth/forgot-password-page/forgot-
 import { ResetPasswordPageComponent } from './auth/reset-password-page/reset-password-page.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { authGuard } from './services/auth.guard';
+import { ThemeSampleComponent } from './theme-sample/theme-sample.component';
 
 export const routes: Routes = [
     {
@@ -38,6 +39,12 @@ export const routes: Routes = [
         path:'dashboard',
         component:DashboardComponent,
         title:'Dashboard',
+        canActivate: [authGuard()]
+    },
+    {
+        path:'theme',
+        component:ThemeSampleComponent,
+        title:'Theme',
         canActivate: [authGuard()]
     },
     {

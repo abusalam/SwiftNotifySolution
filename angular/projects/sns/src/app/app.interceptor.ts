@@ -4,34 +4,53 @@ import { Observable, catchError, throwError } from "rxjs";
 import { ConfigService } from './services/config.service';
 import { BrowserStorageService } from './services/storage.service';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from './services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const appConfig = inject(ConfigService);
+  
+  //Get the baseUrl from config
+  const baseUrl = appConfig.getBaseUrl();
 
-  if(req.url===appConfig.getConfigUrl()) {
-    return next(req);
+  let requestUrl = req.url;
+  
+  // Don't intercept request when loading config
+  if(requestUrl!==appConfig.getConfigUrl()) {
+    requestUrl = baseUrl + requestUrl;
+    console.log("authInterceptor: " + requestUrl);
+  }
+  
+  //Set common header for all intercepted requests
+  let authHeaders: {[name: string]: string | string[];} | undefined = {
+    Accept : "application/json",
+  };
+  
+  //Set Authorization Bearer header only when token is available
+  const accessToken = inject(AuthService).getAccessToken();//inject(BrowserStorageService).getData('accessToken');
+  if(accessToken!=='') {
+    authHeaders['Authorization'] = `Bearer ${accessToken}`;
   }
 
-  const accessToken = inject(BrowserStorageService).getData('accessToken');
-  console.log("Intercepting: " + req.url);
-  const baseUrl = appConfig.getBaseUrl();
-  const cloneRequest =  req.clone({ 
+  //Prepare the request with baseUrl and required Headers
+  return next(req.clone({ 
     url: `${baseUrl}${req.url}`,
-    setHeaders:{
-      Authorization: `Bearer ${accessToken}`
-    }
-  });
-  return next(cloneRequest);
+    setHeaders: authHeaders
+  }));
 };
 
 export function loggingInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
-  console.log(req.url);
+  console.log('loggingInterceptor: ' + req.url);
+  const authService = inject(AuthService);
+  // const router = inject(Router);
   //return next(req);
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-     let errorMsg = error.error;  
-     console.log(`loggingInterceptor: ${errorMsg}`);
-     return throwError(() => errorMsg);
+      if([401, 403].includes(error.status)) {
+        authService.logoutUser();
+        // router.navigateByUrl('/');
+      }
+     console.log(`loggingInterceptor Error: ${error.status}`);
+     return throwError(() => error);
     })
   )
 };

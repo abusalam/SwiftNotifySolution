@@ -1,0 +1,54 @@
+  <div class="demo-section">
+    Button toggles badge visibility
+    <button mat-raised-button matBadge="7" [matBadgeHidden]="hidden" (click)="toggleBadgeVisibility()">
+        Hide
+    </button>
+  </div>
+  <div matBadge="4" matBadgeOverlap="false" class="demo-section">Text with a badge</div>
+
+  <div matBadge="1" matBadgeSize="large" class="demo-section">Text with large badge</div>
+
+  <div class="demo-section">
+    Button with a badge on the left
+    <button mat-raised-button color="primary" (click)="openDialog()"
+        matBadge="8" matBadgePosition="before" matBadgeColor="accent">
+      Launch dialog
+    </button>
+  </div>
+
+  <p><mat-slide-toggle>Slide me!</mat-slide-toggle></p>
+  <p><mat-slide-toggle labelPosition="before">...and slide me too!</mat-slide-toggle></p>
+
+  <button mat-button>mat-button</button>
+
+  <button mat-raised-button (click)="openBottomSheet()">Open file</button>
+
+  <mat-chip-set aria-label="Fish selection">
+    <mat-chip>One fish</mat-chip>
+    <mat-chip>Two fish</mat-chip>
+    <mat-chip>Three fish</mat-chip>
+    <mat-chip disabled>Four fish</mat-chip>
+  </mat-chip-set>
+
+
+
+  <mat-list>
+    <mat-list-item>Simple Divider</mat-list-item>
+    <mat-divider></mat-divider>
+    <mat-list-item>Inset Divider</mat-list-item>
+    <mat-divider [inset]="true"></mat-divider>
+    <mat-list-item>Vertical Divider</mat-list-item>
+    <mat-divider [vertical]="true"></mat-divider>
+    <mat-list-item>Vertical Divider</mat-list-item>
+  </mat-list>
+
+  <p>
+    Options selected: {{shoes.selectedOptions.selected.length}}
+  </p>
+
+  <mat-selection-list #shoes>
+    @for (shoe of typesOfShoes; track shoe) {
+      <mat-list-option>{{shoe}}</mat-list-option>
+    }
+  </mat-selection-list>  
+  

@@ -12,11 +12,13 @@ import { InfoResponse } from '../services/interfaces/auth.resp';
 })
 export class LandingPageComponent {
 
+  isLoggedIn = false;
+
   constructor(private router: Router, private authService: AuthService){
-    authService.getUserInfo().subscribe((res:InfoResponse) => {
-      if(this.authService.isAuthenticated()) {
-        this.router.navigateByUrl('/dashboard');
-      }
-    });
+
+    if(this.authService.isAuthenticated()) {
+      this.router.navigateByUrl('/dashboard');
+      this.isLoggedIn=true;
+    }
   }
 }

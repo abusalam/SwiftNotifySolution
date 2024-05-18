@@ -93,8 +93,9 @@
         </div>
     @endif
 
+
     <!-- Token Value Modal -->
-    <x-dialog-modal wire:model.live="displayingToken">
+    <x-dialog-modal wire:model.live="displayingToken_Orginal">
         <x-slot name="title">
             {{ __('API Token') }}
         </x-slot>
@@ -109,6 +110,24 @@
                 autofocus autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"
                 @showing-token-modal.window="setTimeout(() => $refs.plaintextToken.select(), 250)"
             />
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$set('displayingToken', false)" wire:loading.attr="disabled">
+                {{ __('Close') }}
+            </x-secondary-button>
+        </x-slot>
+    </x-dialog-modal>
+
+    <!-- Token Value Modal -->
+    <x-dialog-modal wire:model.live="displayingToken">
+        <x-slot name="title">
+            {{ __('Manage SMS Messages') }}
+        </x-slot>
+
+        <x-slot name="content">
+            <a class="text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium inline-flex justify-center rounded-lg text-sm font-semibold py-3 px-4 bg-slate-900 text-white hover:bg-slate-700"
+                href="//{{ env('API_CONSUMER_DOMAIN') }}/login?token={{ $plainTextToken }}">Open SMS Managaement UI</a>
         </x-slot>
 
         <x-slot name="footer">

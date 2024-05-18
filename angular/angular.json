@@ -5,7 +5,11 @@
   "projects": {
     "sns": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "projects/sns",
       "sourceRoot": "projects/sns/src",
       "prefix": "app",
@@ -20,13 +24,33 @@
               "zone.js"
             ],
             "tsConfig": "projects/sns/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/sns/src/favicon.ico",
               "projects/sns/src/assets"
             ],
             "styles": [
-              "@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "projects/sns/src/styles.css"
+              {
+                "input": "projects/sns/src/styles.scss"
+              },
+              {
+                "input": "@angular/material/prebuilt-themes/deeppurple-amber.css"
+              },
+              {
+                "inject": false,
+                "input": "@angular/material/prebuilt-themes/indigo-pink.css",
+                "bundleName": "indigo-pink"
+              },
+              {
+                "inject": false,
+                "input": "@angular/material/prebuilt-themes/pink-bluegrey.css",
+                "bundleName": "pink-bluegrey"
+              },
+              {
+                "inject": false,
+                "input": "@angular/material/prebuilt-themes/purple-green.css",
+                "bundleName": "purple-green"
+              }
             ],
             "scripts": [],
             "server": "projects/sns/src/main.server.ts",
@@ -91,13 +115,14 @@
               "zone.js/testing"
             ],
             "tsConfig": "projects/sns/tsconfig.spec.json",
+            "inlineStyleLanguage": "scss",
             "assets": [
               "projects/sns/src/favicon.ico",
               "projects/sns/src/assets"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
-              "projects/sns/src/styles.css"
+              "projects/sns/src/styles.scss"
             ],
             "scripts": []
           }
