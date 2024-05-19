@@ -1,16 +1,18 @@
-<mat-card >
-  <mat-card-header>
-    <mat-card-title>Actions Buttons</mat-card-title>
-    <mat-card-subtitle>
-      @if (isLoggedIn) {
-        <span>Logged In</span>
-      } @else {
-        <span>Not Logged In</span>
-      }
-    </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-actions>
-    <button mat-button>LIKE</button>
-    <button mat-button>SHARE</button>
-  </mat-card-actions>
-</mat-card>
+<div class="flex min-h-full flex-col justify-center p-6 lg:px-8">
+  <mat-card >
+    <mat-card-header>
+      <mat-card-title>Actions Buttons</mat-card-title>
+      <mat-card-subtitle>
+        @if (isLoggedIn) {
+          <span>Logged In</span>
+        } @else {
+          <span>Not Logged In</span>
+        }
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions>
+      <button mat-button>LIKE</button>
+      <button mat-button>SHARE</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
