@@ -1,5 +1,8 @@
 FROM node:lts-alpine
 
+RUN apk add chromium
+ENV CHROME_BIN='/usr/bin/chromium-browser'
+
 RUN deluser --remove-home node \
   && addgroup -S vscode -g 1000 \
   && adduser -S -G vscode -u 1000 vscode

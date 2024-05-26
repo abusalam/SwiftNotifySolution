@@ -124,7 +124,8 @@
               "@angular/material/prebuilt-themes/deeppurple-amber.css",
               "projects/sns/src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "karmaConfig": "projects/sns/karma.conf.js"
           }
         }
       }
